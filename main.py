@@ -59,14 +59,38 @@ if __name__ == '__main__':
     # print(all_texts)
     
     cleaned_texts = processor.clean_text(all_texts)
-    frequency = processor.word_list_to_frequency(cleaned_texts)
+    frequency_1_gram = processor.word_list_to_frequency(cleaned_texts)
+    print("Check the most popular 1-gram-words")
+    df_1 = pd.DataFrame(list(frequency_1_gram.items()), columns = ['vocabs', 'frequency'])
+    df_1.sort_values('frequency', ascending=False)
+    df_1.to_csv('one_gram_counted.csv')
 
-    print("Check the most popular words")
-    df = pd.DataFrame(list(frequency.items()), columns = ['vocabs', 'frequency'])
-    df.sort_values('frequency', ascending=False)
-    df_most_freq = df.nlargest(30, 'frequency')
+    df_most_freq = df_1.nlargest(50, 'frequency')
     print(df_most_freq)
 
+    # 2 gram vocabularies
+    processor.set_gram(2)
+    cleaned_texts = processor.clean_text(all_texts)
+    frequency_2_gram = processor.word_list_to_frequency(cleaned_texts)
+    print("Check the most popular 2-gram-words")
+    df_2 = pd.DataFrame(list(frequency_2_gram.items()), columns = ['vocabs', 'frequency'])
+    df_2.sort_values('frequency', ascending=False)
+    df_2.to_csv('two_gram_counted.csv')
+
+    # df_most_freq = df_2.nlargest(30, 'frequency')
+    # print(df_most_freq)
+
+    # 3 gram vocabularies
+    processor.set_gram(3)
+    cleaned_texts = processor.clean_text(all_texts)
+    frequency_3_gram = processor.word_list_to_frequency(cleaned_texts)
+    print("Check the most popular 3-gram-words")
+    df_3 = pd.DataFrame(list(frequency_3_gram.items()), columns = ['vocabs', 'frequency'])
+    df_3.sort_values('frequency', ascending=False)
+    df_3.to_csv('three_gram_counted.csv')
+
+    # df_most_freq = df_3.nlargest(30, 'frequency')
+    # print(df_most_freq)
 
     # backup = copy.deepcopy(frequency)
     # for w in backup:
